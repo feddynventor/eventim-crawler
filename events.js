@@ -16,7 +16,6 @@ function events(artist) {
     .then($ => {
         let dict = {}
         // main event set
-        // $("article.listing,article.listing-item").each((i, el) => {
         $("article.listing").each((i, el) => {
             const eventUri = (cheerio.load(el)("div.listing-item"))[0].attribs['onclick'].split('\'')[1].split('/').slice(-2)[0]
             dict[el.attribs['data-teaser-id']] = {
@@ -25,8 +24,9 @@ function events(artist) {
                 cover: cheerio.load(el)("div.listing-item>div.listing-image-wrapper>img")[0].attribs['src']
             }
         })
-        
-        return dict
+
+        if (Object.entries(dict).length != 0) return dict
+        else return tickets(artist,"")
     })
 }
 
