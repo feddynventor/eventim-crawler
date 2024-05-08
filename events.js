@@ -14,15 +14,16 @@ function events(artist) {
     return api.get(artist)
     .then(res => cheerio.load(res.data))
     .then($ => {
-        let dict = {}
+        let dict = []
         // main event set
         $("article.listing").each((i, el) => {
             const eventUri = (cheerio.load(el)("div.listing-item"))[0].attribs['onclick'].split('\'')[1].split('/').slice(-2)[0]
-            dict[el.attribs['data-teaser-id']] = {
+            dict.push({
+                id: el.attribs['data-teaser-id'],
                 name: el.attribs['data-teaser-name'],
                 uri: eventUri,
                 cover: cheerio.load(el)("div.listing-item>div.listing-image-wrapper>img")[0].attribs['src']
-            }
+            })
         })
 
         if (Object.entries(dict).length != 0) return dict
