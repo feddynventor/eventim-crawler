@@ -4,13 +4,8 @@ const cheerio = require("cheerio");
 const api = axios.create({
     baseURL: "https://www.ticketone.it/artist",
     headers: {
-        'Content-type': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-	'Accept-Language': 'en,it;q=0.5',
-	'Connection': 'keep-alive',
-	'Upgrade-Insecure-Requests': '1',
+        'Content-type': 'text/html',
         Accept: 'text/html',
-	'Pragma': 'no-cache',
-	'Cache-Control': 'no-cache',
         'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0',
         'accept-encoding': 'gzip, deflate, br',
     },
