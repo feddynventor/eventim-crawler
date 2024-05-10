@@ -36,8 +36,7 @@ function events(artist) {
             })
         })
 
-        if (Object.entries(dict).length != 0) return dict
-        else return tickets(artist,"")
+        return dict
     })
 }
 
