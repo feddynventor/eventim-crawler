@@ -60,11 +60,17 @@ function tickets(artist, eventUri){
         $("div#tickets>div>div.listing-item-wrapper-inside-card")
         .each((i,el)=>{
             const eventDateInfo = cheerio.load(el)("div.listing-container>article.listing-item>div.event-listing-link-wrapper>div.event-listing-info-wrapper>div.event-listing-info")[0]
+            let city_element = cheerio.load(eventDateInfo)("div.event-listing-info>div.event-listing-info-inner>h2").text()
+            let event_element = eventDateInfo.attribs['data-teaser-name']
+            if (city_element === event_element) {
+                event_element = city_element
+                city_element = cheerio.load(eventDateInfo)("div.event-listing-info>div.event-listing-info-inner>ul>li.event-listing-venue").text()
+            }
             arr.push({
                 id: eventDateInfo.attribs['data-event-id'],
-                name: eventDateInfo.attribs['data-teaser-name'],
+                name: event_element,
                 uri: eventDateInfo.attribs['onclick'].match(/\/event\/.*\//)[0],
-                city: cheerio.load(eventDateInfo)("div.event-listing-info>div.event-listing-info-inner>h2").text(),
+                city: city_element,
                 date: new Date( cheerio.load(el)("div.listing-container>article.listing-item>div.event-listing-link-wrapper>div.event-listing-date-box>div>time")[0].attribs['datetime'] )
             })
         })
