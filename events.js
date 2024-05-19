@@ -40,6 +40,18 @@ function events(artist) {
     })
 }
 
+function singleEvent(artist, eventUri){
+    return api.get(artist+"/"+eventUri)
+    .then(res => cheerio.load(res.data))
+    .then($ => {
+        const textRootElement = $(".container.artwork-content > .artwork-content-text > .stage-content-text")
+        return {
+            name: textRootElement.find("h1.stage-headline").text(),
+            cover: $("img.stage-blurred-image").attr("src"),
+        }
+    })
+}
+
 function tickets(artist, eventUri){
     return api.get(artist+"/"+eventUri)
     .then(res => cheerio.load(res.data))
@@ -62,5 +74,6 @@ function tickets(artist, eventUri){
 
 module.exports = {
     getEvents: events,
-    getTickets: tickets
+    getTickets: tickets,
+    getCover: singleEvent
 }

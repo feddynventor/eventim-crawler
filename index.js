@@ -8,7 +8,10 @@ app.get(root+'/:artist', (req, res) => {
     e.getEvents(req.params.artist)
     .then(async events => {
         if (events.length == 0)
-            res.send(await e.getTickets(req.params.artist, ""))
+            res.send([{
+                ...await e.getCover(req.params.artist, ""),
+                dates: await e.getTickets(req.params.artist, "")
+            }])
         else
             res.send(await Promise.all(events.map( async event => ({
                 ...event,
