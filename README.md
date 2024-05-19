@@ -30,3 +30,6 @@ The second endpoint requires `/:artist/:eventuri` and crawles the dates of the e
 ### TODO
 - pages management
 - sometimes the city is swapped with the event name so dates crawler is not perfect
+
+### Dockerfile
+`docker run --restart=unless-stopped -d -p 127.0.0.1:8563:3000 -e ROOT=/ticketone eventim-crawler`
