@@ -11,11 +11,13 @@ app.get(root+'/:artist', (req, res) => {
             res.send([{
                 ...await e.getCover(req.params.artist, ""),
                 dates: await e.getTickets(req.params.artist, "")
+                    .then(req.query.uniqueCity==="1" ? removeDuplicates : undefined)
             }])
         else
             res.send(await Promise.all(events.map( async event => ({
                 ...event,
                 dates: await e.getTickets(req.params.artist, event.uri)
+                    .then(req.query.uniqueCity==="1" ? removeDuplicates : undefined)
             }))))
     })
     .catch(err => {
@@ -37,3 +39,9 @@ app.get(root+'/:artist/:event', (req, res) => {
 app.listen(3000, () => {
   console.log(`Listening on port 3000`)
 })
+
+function removeDuplicates(arr, prop="city") {
+    return arr.filter((obj, pos, arr) => {
+        return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
+    });
+}
