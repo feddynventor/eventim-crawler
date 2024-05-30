@@ -46,6 +46,8 @@ function singleEvent(artist, eventUri){
     .then($ => {
         const textRootElement = $(".container.artwork-content > .artwork-content-text > .stage-content-text")
         return {
+            id: artist.concat(eventUri),
+            uri: "artist/".concat(artist),
             name: textRootElement.find("h1.stage-headline").text(),
             cover: $("img.stage-blurred-image").attr("src"),
         }
