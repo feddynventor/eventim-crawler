@@ -4,6 +4,9 @@ const express = require('express')
 const app = express()
 const root = process.env["ROOT"] || ""
 
+const cors = require('cors');
+app.use(cors())
+
 app.get(root+'/:artist', (req, res) => {
     e.getEvents(req.params.artist)
     .then(async events => {
