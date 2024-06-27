@@ -27,11 +27,12 @@ function events(artist) {
         let dict = []
         // main event set
         $("article.listing").each((i, el) => {
-            const eventUri = (cheerio.load(el)("div.listing-item"))[0].attribs['onclick'].split('\'')[1].split('/').slice(-2)[0]
+            const eventUri = (cheerio.load(el)("div.listing-item"))[0].attribs['onclick'].split('\'')[1]
             dict.push({
                 id: el.attribs['data-teaser-id'],
                 name: el.attribs['data-teaser-name'],
-                uri: eventUri,
+                url: eventUri,
+                uri: eventUri.split('/').slice(-2)[0],
                 cover: cheerio.load(el)("div.listing-item>div.listing-image-wrapper>img")[0].attribs['src']
             })
         })
@@ -47,7 +48,7 @@ function singleEvent(artist, eventUri){
         const textRootElement = $(".container.artwork-content > .artwork-content-text > .stage-content-text")
         return {
             id: artist.concat(eventUri),
-            uri: "artist/".concat(artist),
+            uri: "/artist/".concat(artist),
             name: textRootElement.find("h1.stage-headline").text(),
             cover: $("img.stage-blurred-image").attr("src"),
         }

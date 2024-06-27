@@ -13,12 +13,14 @@ app.get(root+'/:artist', (req, res) => {
         if (events.length == 0)
             res.send([{
                 ...await e.getCover(req.params.artist, ""),
+                uri: event.url,  //retro compat
                 dates: await e.getTickets(req.params.artist, "")
                     .then(req.query.uniqueCity==="1" ? removeDuplicates : undefined)
             }])
         else
             res.send(await Promise.all(events.map( async event => ({
                 ...event,
+                uri: event.url,  //retro compat
                 dates: await e.getTickets(req.params.artist, event.uri)
                     .then(req.query.uniqueCity==="1" ? removeDuplicates : undefined)
             }))))
